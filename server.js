@@ -30,7 +30,8 @@ app.post('/api/remove-bg', upload.single('file'), async (req, res) => {
 
     let inputForImgly = buffer;
     if (req.body && req.body.image) {
-      inputForImgly = `data:image/jpeg;base64,${req.body.image}`;
+      // Pass it as a Blob with the correct mime type, which @imgly supports natively!
+      inputForImgly = new Blob([buffer], { type: 'image/jpeg' });
     }
 
     if (!inputForImgly) {
