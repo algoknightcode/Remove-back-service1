@@ -4,7 +4,7 @@ const { removeBackground } = require('@imgly/background-removal-node');
 const cors = require('cors');
 
 const app = express();
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 6789;
 
 app.use(cors());
 
