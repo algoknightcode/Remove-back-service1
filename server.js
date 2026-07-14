@@ -28,12 +28,17 @@ app.post('/api/remove-bg', upload.single('file'), async (req, res) => {
       console.log(`[BG] Received base64 image (${buffer.length} bytes)`);
     }
 
-    if (!buffer || buffer.length === 0) {
+    let inputForImgly = buffer;
+    if (req.body && req.body.image) {
+      inputForImgly = `data:image/jpeg;base64,${req.body.image}`;
+    }
+
+    if (!inputForImgly) {
       return res.status(400).json({ error: 'No image data provided' });
     }
 
     // 3. Process background removal
-    const transparentBlob = await removeBackground(buffer);
+    const transparentBlob = await removeBackground(inputForImgly);
     const arrayBuffer = await transparentBlob.arrayBuffer();
     const outputBuffer = Buffer.from(arrayBuffer);
 
