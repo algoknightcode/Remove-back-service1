@@ -38,8 +38,9 @@ app.post('/api/remove-bg', upload.single('file'), async (req, res) => {
       return res.status(400).json({ error: 'No image data provided' });
     }
 
-    // 3. Process background removal
-    const transparentBlob = await removeBackground(inputForImgly);
+    // 3. Process background removal (Using 'small' model to save RAM)
+    const config = { model: 'small' };
+    const transparentBlob = await removeBackground(inputForImgly, config);
     const arrayBuffer = await transparentBlob.arrayBuffer();
     const outputBuffer = Buffer.from(arrayBuffer);
 
